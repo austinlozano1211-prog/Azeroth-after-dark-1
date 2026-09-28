@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Azeroth After Dark</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">⚔</div>
+      <div>
+        <h1>Azeroth After Dark</h1>
+        <p class="subtitle">Adult guild chaos around the table.</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button id="musicBtn" class="music-btn" type="button" aria-pressed="false">♫ Music Off</button>
+      <div id="roomBadge" class="room-badge hidden"></div>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="screen">
+      <div class="hero panel">
+        <div class="eyebrow">18+ PRIVATE PARTY GAME</div>
+        <h2>Pull up a chair.</h2>
+        <p>Everyone sits at the table, the Judge flips a filthy prompt, and the rest of the guild tries to say something so unhinged it wins the round.</p>
+        <label>Display name
+          <input id="nameInput" maxlength="24" placeholder="Ikonik">
+        </label>
+        <div class="home-actions">
+          <button id="createBtn" class="primary">Create Room</button>
+          <div class="join-row">
+            <input id="roomInput" maxlength="4" placeholder="ROOM">
+            <button id="joinBtn">Join Room</button>
+          </div>
+        </div>
+        <div id="homeError" class="error"></div>
+      </div>
+    </section>
+
+    <section id="lobby" class="screen hidden">
+      <div class="lobby-grid">
+        <div class="panel">
+          <div class="eyebrow">PARTY</div>
+          <h2>Table Lobby</h2>
+          <div id="lobbyPlayers"></div>
+          <div id="botControls" class="bot-controls">
+            <button id="addBotBtn">+ Add Bot</button>
+            <button id="removeBotBtn">− Remove Bot</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="eyebrow">DECKS & RULES</div>
+          <h2>Game Settings</h2>
+          <label>Points to win
+            <input id="pointsInput" type="number" min="3" max="20" value="7">
+          </label>
+          <label>Cards per hand
+            <input id="handSizeInput" type="number" min="5" max="12" value="8">
+          </label>
+
+          <div class="deck-list">
+            <label class="check"><input id="packGeneral" type="checkbox" checked> After Dark Core</label>
+            <label class="check"><input id="packExodium" type="checkbox" checked> Exodium After Dark</label>
+            <label class="check"><input id="packRaunchy" type="checkbox"> Extra Filthy Mode</label>
+            <label class="check"><input id="specialRounds" type="checkbox" checked> Special rounds</label>
+          </div>
+
+          <button id="saveSettingsBtn">Apply Settings</button>
+          <button id="startBtn" class="primary">Start Game</button>
+          <p class="small">At least 3 players total. Bots count.</p>
+        </div>
+
+        <div class="panel">
+          <div class="eyebrow">CUSTOM GUILD CARDS</div>
+          <h2>Inside Jokes</h2>
+          <p class="small">One card per line. Only the host can edit these before the game starts.</p>
+          <label>Custom prompts
+            <textarea id="customPrompts" rows="7" placeholder="The real reason Greg missed raid was ______."></textarea>
+          </label>
+          <label>Custom answers
+            <textarea id="customAnswers" rows="8" placeholder="Greg's suspiciously intimate Taco Bell date"></textarea>
+          </label>
+          <button id="saveCustomBtn">Save Custom Cards</button>
+          <div id="customStatus" class="small"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="game" class="screen hidden">
+      <div class="game-room">
+        <div id="roundRuleBanner" class="rule-banner"></div>
+
+        <div class="table-scene">
+          <div class="table-surface">
+            <div class="rune-ring" aria-hidden="true"></div>
+            <div class="candle candle-left" aria-hidden="true"><span></span></div>
+            <div class="candle candle-right" aria-hidden="true"><span></span></div>
+            <div id="playerSeats" class="player-seats"></div>
+
+            <div class="table-center">
+              <div id="judgeBanner" class="judge-banner"></div>
+              <div id="timer" class="timer hidden"></div>
+
+              <div id="promptCard" class="prompt-card"></div>
+              <div id="statusText" class="status-text"></div>
+
+              <div id="wildEntry" class="wild-entry hidden">
+                <input id="wildInput" maxlength="160" placeholder="Type your own depraved answer...">
+                <button id="wildSubmit" class="primary">Play Wild Card</button>
+              </div>
+
+              <div id="submissions" class="submissions"></div>
+
+              <div class="table-actions">
+                <button id="nextRoundBtn" class="primary hidden">Next Round</button>
+                <button id="restartBtn" class="hidden">Back to Lobby</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hand-dock">
+          <div class="hand-header">
+            <div>
+              <h3>Your Hand</h3>
+              <div id="selectionHint" class="small"></div>
+            </div>
+            <button id="submitSelectedBtn" class="primary hidden">Submit Selected Cards</button>
+          </div>
+          <div id="hand" class="hand"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
